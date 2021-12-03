@@ -1,0 +1,10 @@
+.env
+*.json
+/1
+/nasa_apod
+/nasa_epic
+/spacex
+.idea
+__pycache__
+.vscode
+.DS_Store
