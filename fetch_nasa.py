@@ -2,6 +2,10 @@ import os
 import datetime
 import requests
 from dotenv import load_dotenv
+from os.path import split
+from os.path import splitext
+from urllib.parse import urlsplit
+from urllib.parse import unquote
 
 
 def save_images(url, path, params=None):
@@ -11,32 +15,21 @@ def save_images(url, path, params=None):
         file.write(response.content)
 
 
-def fetch_spacex_last_launch(spacex_dir):
-    url_spacex = 'https://api.spacexdata.com/v4/launches/618faad2563d69573ed8ca9d'
-    params = None
-    response = requests.get(url_spacex, params=params)
-    response.raise_for_status()
-    links = response.json()['links']['flickr']['original']
-    for link_number, url in enumerate(links):
-        file = f'spacex{link_number}.jpg'
-        path = f'{spacex_dir}/{file}'
-        save_images(url, path, params)
-
-
 def fetch_nasa_apod(token, nasa_apod_dir):
     url_nasa = 'https://api.nasa.gov/planetary/apod'
     params = {
         'api_key': token,
-        'start_date': '2021-10-30',
-        'end_date': '2021-12-01',
+        'start_date': '2020-10-01',
+        'end_date': '2020-11-01',
     }
     response = requests.get(url_nasa, params=params)
     response.raise_for_status()
     response_dict = response.json()
-    for item_number, item in enumerate(response_dict):
-        file = f'nasa_apod{item_number}.jpg'
+    for apod_number, apod in enumerate(response_dict):
+        url = apod['url']
+        ext = get_extension(url)
+        file = f'nasa_apod{apod_number}{ext}.jpg'
         path = f'{nasa_apod_dir}/{file}'
-        url = item['url']
         save_images(url, path, params)
 
 
@@ -55,15 +48,20 @@ def fetch_nasa_epic(token, nasa_epic_dir):
         save_images(url, path, params)
 
 
+def get_extension(url):
+    split_url = urlsplit(url)
+    file_path = unquote(split_url[2])
+    split_filename = splitext(file_path)
+    extension = split_filename[1]
+    return extension
+
+
 if __name__ == '__main__':
     load_dotenv()
     token = os.getenv('API_NASA')
-    spacex_dir = 'spacex'
-    nasa_apod_dir = 'nasa_apod'
-    nasa_epic_dir = 'nasa_epic'
+    nasa_apod_dir = 'images/nasa_apod'
+    nasa_epic_dir = 'images/nasa_epic'
     os.makedirs(nasa_apod_dir, exist_ok=True)
     os.makedirs(nasa_epic_dir, exist_ok=True)
-    os.makedirs(spacex_dir, exist_ok=True)
     fetch_nasa_epic(token, nasa_epic_dir)
     fetch_nasa_apod(token, nasa_apod_dir)
-    fetch_spacex_last_launch(spacex_dir)
