@@ -10,7 +10,6 @@
 
 `fetch_nasa.py` Использует приватный ключ к [API NASA](https://api.nasa.gov/)
 
-Файл `.env`
 Пример файла `.env`:
 ```
 API_NASA = 'api_nasa'
