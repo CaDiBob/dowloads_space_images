@@ -12,9 +12,9 @@
 
 Пример файла `.env`:
 ```
-API_NASA = 'api_nasa'
-TG_API = 'tg_token'
-TG_CHAT_ID = '@chat_id'
+API_NASA='api_nasa'
+TG_API='tg_token'
+TG_CHAT_ID='@chat_id'
 ```
 
 Скрипт `send_to_telegram.py` для отправки картинок в телеграм канал.
