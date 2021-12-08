@@ -21,12 +21,12 @@ def send_to_telegram(token, chat_id, sleep):
 
 def get_pictures(folder):
     images = []
-    for image in listdir(folder):
-        if isfile(join(folder, image)):
-            images.append(image)
+    for image_folder in listdir(folder):
+        if isfile(join(folder, image_folder)):
+            images.append(image_folder)
         else:
-            for file in listdir(join(folder, image)):
-                images.append(f'{image}/{file}')
+            for filename in listdir(join(folder, image_folder)):
+                images.append(f'{image_folder}/{filename}')
     return images
 
 

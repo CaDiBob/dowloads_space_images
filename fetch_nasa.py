@@ -8,10 +8,10 @@ from urllib.parse import urlsplit
 from urllib.parse import unquote
 
 
-def save_images(url, path, params=None):
+def save_images(url, filepath, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
-    with open(path, 'wb') as file:
+    with open(filepath, 'wb') as file:
         file.write(response.content)
 
 
@@ -28,9 +28,9 @@ def fetch_nasa_apod(token, nasa_apod_dir):
     for apod_number, apod in enumerate(response_dict):
         url = apod['url']
         ext = get_extension(url)
-        file = f'nasa_apod{apod_number}{ext}.jpg'
-        path = f'{nasa_apod_dir}/{file}'
-        save_images(url, path, params)
+        filename = f'nasa_apod{apod_number}{ext}.jpg'
+        filepath = f'{nasa_apod_dir}/{filename}'
+        save_images(url, filepath, params)
 
 
 def fetch_nasa_epic(token, nasa_epic_dir):
@@ -39,13 +39,13 @@ def fetch_nasa_epic(token, nasa_epic_dir):
     response = requests.get(url_nasa_epic, params=params)
     response.raise_for_status()
     for epic_number, epic in enumerate(response.json()):
-        file = f'nasa_epic{epic_number}.png'
+        filename = f'nasa_epic{epic_number}.png'
         img_name = epic['image']
         img_date = datetime.datetime.fromisoformat(epic['date'])
         epic_date = img_date.strftime('%Y/%m/%d')
         url = f'https://api.nasa.gov/EPIC/archive/natural/{epic_date}/png/{img_name}.png'
-        path = f'{nasa_epic_dir}/{file}'
-        save_images(url, path, params)
+        filepath = f'{nasa_epic_dir}/{filename}'
+        save_images(url, filepath, params)
 
 
 def get_extension(url):

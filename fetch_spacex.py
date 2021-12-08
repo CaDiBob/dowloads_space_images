@@ -11,9 +11,9 @@ def fetch_spacex_last_launch(spacex_dir):
     response.raise_for_status()
     links = response.json()['links']['flickr']['original']
     for link_number, url in enumerate(links):
-        file = f'spacex{link_number}.jpg'
-        path = f'{spacex_dir}/{file}'
-        save_images(url, path, params)
+        filename = f'spacex{link_number}.jpg'
+        filepath = f'{spacex_dir}/{filename}'
+        save_images(url, filepath, params)
 
 
 if __name__ == '__main__':
