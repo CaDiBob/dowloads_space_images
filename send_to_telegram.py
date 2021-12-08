@@ -1,11 +1,11 @@
 import argparse
 import os
 import telegram
+import time
 from dotenv import load_dotenv
 from os import listdir
 from os.path import isfile
 from os.path import join
-import time
 
 
 def send_to_telegram(token, chat_id, sleep):
@@ -34,7 +34,8 @@ if __name__ == '__main__':
     load_dotenv()
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        'interval', help='Интервал публикации фото на канал в секундах'
+        'interval',
+        help='Интервал публикации фото на канал в секундах',
         )
     namespace = parser.parse_args()
     sleep = int(namespace.interval)

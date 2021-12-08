@@ -2,7 +2,6 @@ import os
 import datetime
 import requests
 from dotenv import load_dotenv
-from os.path import split
 from os.path import splitext
 from urllib.parse import urlsplit
 from urllib.parse import unquote
@@ -10,16 +9,16 @@ from saving_images import saving_images
 
 
 def fetch_nasa_apod(token, nasa_apod_dir):
-    url_nasa = 'https://api.nasa.gov/planetary/apod'
+    nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
     params = {
         'api_key': token,
         'start_date': '2020-10-01',
         'end_date': '2020-11-01',
     }
-    response = requests.get(url_nasa, params=params)
+    response = requests.get(nasa_apod_url, params=params)
     response.raise_for_status()
-    response_dict = response.json()
-    for apod_number, apod in enumerate(response_dict):
+    links = response.json()
+    for apod_number, apod in enumerate(links):
         url = apod['url']
         ext = get_extension(url)
         filename = f'nasa_apod{apod_number}{ext}.jpg'
@@ -28,9 +27,9 @@ def fetch_nasa_apod(token, nasa_apod_dir):
 
 
 def fetch_nasa_epic(token, nasa_epic_dir):
-    url_nasa_epic = 'https://epic.gsfc.nasa.gov/api/natural'
+    nasa_epic_url = 'https://epic.gsfc.nasa.gov/api/natural'
     params = {'api_key': token}
-    response = requests.get(url_nasa_epic, params=params)
+    response = requests.get(nasa_epic_url, params=params)
     response.raise_for_status()
     for epic_number, epic in enumerate(response.json()):
         filename = f'nasa_epic{epic_number}.png'
