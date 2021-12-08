@@ -1,9 +1,7 @@
 .env
 *.json
 /1
-/nasa_apod
-/nasa_epic
-/spacex
+/images
 .idea
 __pycache__
 .vscode

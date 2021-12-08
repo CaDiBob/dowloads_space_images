@@ -1,3 +1,4 @@
+import argparse
 import os
 import telegram
 from dotenv import load_dotenv
@@ -7,10 +8,9 @@ from os.path import join
 import time
 
 
-def send_to_telegram(token, chat_id):
+def send_to_telegram(token, chat_id, sleep):
     folder = 'images/'
     bot = telegram.Bot(token=token)
-    sleep = 86400
     while True:
         for image in get_pictures(folder):
             image_path = f'{folder}{image}'
@@ -32,6 +32,12 @@ def get_pictures(folder):
 
 if __name__ == '__main__':
     load_dotenv()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'interval', help='Интервал публикации фото на канал в секундах'
+        )
+    namespace = parser.parse_args()
+    sleep = int(namespace.interval)
     token = os.getenv('TG_API')
     chat_id = os.getenv('TG_CHAT_ID')
-    send_to_telegram(token, chat_id)
+    send_to_telegram(token, chat_id, sleep)
