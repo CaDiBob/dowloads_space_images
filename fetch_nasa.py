@@ -6,13 +6,7 @@ from os.path import split
 from os.path import splitext
 from urllib.parse import urlsplit
 from urllib.parse import unquote
-
-
-def save_images(url, filepath, params=None):
-    response = requests.get(url, params=params)
-    response.raise_for_status()
-    with open(filepath, 'wb') as file:
-        file.write(response.content)
+from saving_images import saving_images
 
 
 def fetch_nasa_apod(token, nasa_apod_dir):
@@ -30,7 +24,7 @@ def fetch_nasa_apod(token, nasa_apod_dir):
         ext = get_extension(url)
         filename = f'nasa_apod{apod_number}{ext}.jpg'
         filepath = f'{nasa_apod_dir}/{filename}'
-        save_images(url, filepath, params)
+        saving_images(url, filepath, params)
 
 
 def fetch_nasa_epic(token, nasa_epic_dir):
@@ -45,13 +39,12 @@ def fetch_nasa_epic(token, nasa_epic_dir):
         epic_date = img_date.strftime('%Y/%m/%d')
         url = f'https://api.nasa.gov/EPIC/archive/natural/{epic_date}/png/{img_name}.png'
         filepath = f'{nasa_epic_dir}/{filename}'
-        save_images(url, filepath, params)
+        saving_images(url, filepath, params)
 
 
 def get_extension(url):
-    split_url = urlsplit(url)
-    file_path = unquote(split_url[2])
-    split_filename = splitext(file_path)
+    split_url = urlsplit(url).path
+    split_filename = splitext(split_url)
     extension = split_filename[1]
     return extension
 
