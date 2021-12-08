@@ -6,14 +6,13 @@ from fetch_nasa import save_images
 
 def fetch_spacex_last_launch(spacex_dir):
     url_spacex = 'https://api.spacexdata.com/v4/launches/618faad2563d69573ed8ca9d'
-    params = None
-    response = requests.get(url_spacex, params=params)
+    response = requests.get(url_spacex)
     response.raise_for_status()
     links = response.json()['links']['flickr']['original']
     for link_number, url in enumerate(links):
         filename = f'spacex{link_number}.jpg'
         filepath = f'{spacex_dir}/{filename}'
-        save_images(url, filepath, params)
+        save_images(url, filepath)
 
 
 if __name__ == '__main__':
