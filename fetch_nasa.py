@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from os.path import splitext
 from urllib.parse import urlsplit
 from urllib.parse import unquote
-from saving_images import is_saving_image
+from download_image import download_image
 
 
 def fetch_nasa_apod(token, nasa_apod_dir):
@@ -23,7 +23,7 @@ def fetch_nasa_apod(token, nasa_apod_dir):
         ext = get_extension(url)
         filename = f'nasa_apod{apod_number}{ext}'
         filepath = f'{nasa_apod_dir}/{filename}'
-        is_saving_image(url, filepath, params)
+        download_image(url, filepath, params)
 
 
 def fetch_nasa_epic(token, nasa_epic_dir):
@@ -38,7 +38,7 @@ def fetch_nasa_epic(token, nasa_epic_dir):
         epic_date = img_date.strftime('%Y/%m/%d')
         url = f'https://api.nasa.gov/EPIC/archive/natural/{epic_date}/png/{img_name}.png'
         filepath = f'{nasa_epic_dir}/{filename}'
-        is_saving_image(url, filepath, params)
+        download_image(url, filepath, params)
 
 
 def get_extension(url):
