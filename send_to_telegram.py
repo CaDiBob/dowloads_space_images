@@ -12,14 +12,14 @@ def send_to_telegram(token, chat_id, sleep):
     folder = 'images/'
     bot = telegram.Bot(token=token)
     while True:
-        for image in get_pictures(folder):
-            image_path = f'{folder}{image}'
+        for image_name in get_image_names(folder):
+            image_path = f'{folder}{image_name}'
             with open(image_path, 'rb') as file:
                 bot.send_photo(chat_id=chat_id, photo=file)
             time.sleep(sleep)
 
 
-def get_pictures(folder):
+def get_image_names(folder):
     images = []
     for image_folder in listdir(folder):
         if isfile(join(folder, image_folder)):

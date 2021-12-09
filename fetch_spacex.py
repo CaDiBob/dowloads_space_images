@@ -1,7 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
-from saving_images import saving_images
+from saving_images import is_saving_image
 
 
 def fetch_spacex_last_launch(spacex_dir):
@@ -12,7 +12,7 @@ def fetch_spacex_last_launch(spacex_dir):
     for link_number, url in enumerate(links):
         filename = f'spacex{link_number}.jpg'
         filepath = f'{spacex_dir}/{filename}'
-        saving_images(url, filepath)
+        is_saving_image(url, filepath)
 
 
 if __name__ == '__main__':
